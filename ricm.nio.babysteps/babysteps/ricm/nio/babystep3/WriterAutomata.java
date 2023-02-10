@@ -1,4 +1,4 @@
-package ricm.nio.babystep2;
+package ricm.nio.babystep3;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -7,8 +7,6 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
-
-import ricm.nio.babystep2.ReaderAutomata.State;
 
 public class WriterAutomata {
 
@@ -20,13 +18,15 @@ public class WriterAutomata {
 	ByteBuffer data;
 	Selector selector;
 	ArrayList <byte[]> pendingMsgs;
+	SelectionKey key;
 	
-	WriterAutomata(SocketChannel soc, Selector selector){
+	WriterAutomata(SocketChannel soc, Selector selector, SelectionKey key){
 		state= State.WRITING_IDLE;
 		this.selector= selector;
 		this.soc = soc;
 		len = ByteBuffer.allocate(4);
 		pendingMsgs = new ArrayList <byte[]>();
+		this.key = key;
 	}
 	
 	// lire len avant, puis data
